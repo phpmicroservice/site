@@ -23,8 +23,11 @@ class Controller extends \pms\Controller
      */
     public function initialize()
     {
-        $this->user_id = $this->session->user_id;
-
+        if (is_object($this->session)) {
+            $this->user_id = $this->session->get('user_id');
+        } else {
+            $this->user_id = 0;
+        }
         $this->message->pruge();
         parent::initialize();
     }

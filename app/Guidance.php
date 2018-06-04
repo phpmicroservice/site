@@ -51,6 +51,20 @@ class Guidance extends \Phalcon\Di\Injectable
         $this->eventsManager->attach('dispatch:beforeNotFoundHandler', new NotFound());
         $this->eventsManager->attach('dispatch:beforeNotFoundAction', new NotFound());
         $this->eventsManager->attach('dispatch:beforeDispatch', new Alc(), 1);
+
+        // 附上一个侦听者  处理404异常
+//        $this->eventsManager->attach(
+//            "dispatch:beforeException",
+//            function (Event $event, Dispatcher $dispatcher, \Exception $exception) {
+//                output(get_class($exception) , 108108);
+//                // 处理404异常
+//                if ($exception instanceof DispatchException) {
+//                    $dispatcher->connect->send_error('不存在的动作', [$dispatcher->getTaskName(), $dispatcher->getActionName()], 404);
+//                    return false;
+//                }
+//            }
+//        );
+
     }
 
     /**
