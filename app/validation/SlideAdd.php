@@ -2,6 +2,7 @@
 
 namespace app\validation;
 
+use app\model\slide;
 use pms\Validation;
 
 /**
@@ -13,4 +14,19 @@ use pms\Validation;
 class SlideAdd extends Validation
 {
 
+    protected function initialize()
+    {
+        $this->add_uq('identifying', [
+            'model' => new slide(),
+            'message' => 'uq'
+        ]);
+        $this->add_stringLength('title', [
+            'max' => 20,
+            'min' => 4,
+            'messageMaximum' => 'strlenmax',
+            'messageMinimum' => 'strlenmin'
+        ]);
+
+        return parent::initialize();
+    }
 }

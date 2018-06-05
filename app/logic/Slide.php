@@ -41,12 +41,12 @@ class Slide extends Base
     public function edit($data)
     {
         # 进行数据验证
-        $va = new SlideEdit();
+        $va = new \app\validation\SlideEdit();
         if (!$va->validate($data)) {
             return $va->getErrorMessages();
         }
         # 验证通过
-        $model = new \app\model\slide();
+        $model = \app\model\slide::findFirstById($data['id']);
         if (!$model->save($data, ['title', 'identifying'])) {
             return $model->getMessage();
         }
@@ -77,5 +77,19 @@ class Slide extends Base
         return $paginator->getPaginate();
     }
 
+
+    /**
+     * 信息
+     * @param int $id
+     */
+    public function info(int $id)
+    {
+        $mo = \app\model\slide::findFirst([
+            'id =:id:', 'bind' => [
+                'id' => $id
+            ]
+        ]);
+        return $mo;
+    }
 
 }

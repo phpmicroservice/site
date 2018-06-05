@@ -48,5 +48,28 @@ class Slide extends \app\Controller
         $this->send($re);
     }
 
+    /**
+     * 获取信息
+     */
+    public function info()
+    {
+        $id = $this->getData('id');
+        $server = new \app\logic\Slide();
+        $re = $server->info((int)$id);
+        $this->send($re);
+    }
+
+
+    /**
+     * 增加幻灯片的资源
+     */
+    public function add_res()
+    {
+        $id = $this->getData('id');
+        $server = new \app\logic\Sres();
+        $re = $server->info((int)$id);
+        $this->send($re);
+    }
+
 
 }
