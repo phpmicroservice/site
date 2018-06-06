@@ -2,18 +2,19 @@
 
 namespace app\validation;
 
+use app\model\slide_res;
 use pms\Validation;
 
 /**
- * 幻灯片资源增加
+ * 幻灯片资源 编辑
  * Class SresAdd
  *
  * @package app\validation
  */
-class SresAdd extends Validation
+class SresEdit extends Validation
 {
     /**
-     * 验证执行之前执行,真执行之前
+     * 验证执行之前执行
      *
      * @param array $data
      * @param object $entity
@@ -22,6 +23,25 @@ class SresAdd extends Validation
      */
     public function beforeValidation1($data)
     {
+        # type 的范围 1cms 2bbs
+        $this->add_in('type', [
+            'domain' => [
+                '1', '2'
+            ],
+            'message' => 'typein'
+        ]);
+        # 验证type是否没变
+        $this->add_Validator('type', [
+            'name' => Validation\Validator\StatusValidator::class,
+            'model' => slide_res::class,
+            'status' => [
+                'type' => $data['type']
+            ],
+            'by' => 'id',
+            'by_index' => 'id',
+            'message' => 'typenoedit'
+        ]);
+        # 对于关联数据进行验证
         if ($data['type'] == '1') {
             # cms验证
             $this->add_Validator('relations_id', [
@@ -44,12 +64,7 @@ class SresAdd extends Validation
 
     protected function initialize()
     {
-        $this->add_in('type', [
-            'domain' => [
-                '1', '2'
-            ],
-            'message' => 'typein'
-        ]);
+
         return parent::initialize();
     }
 

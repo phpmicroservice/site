@@ -82,5 +82,16 @@ class Slide extends \app\Controller
         $this->send($re);
     }
 
+    /**
+     * 增加幻灯片的资源
+     */
+    public function res_edit()
+    {
+        $data = $this->getData();
+        $server = new \app\logic\Sres();
+        $re = $server->edit($data);
+        $this->send($re);
+    }
+
 
 }
