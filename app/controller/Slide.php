@@ -93,5 +93,14 @@ class Slide extends \app\Controller
         $this->send($re);
     }
 
+    public function res_info()
+    {
+        $id = $this->getData('id');
+        $server = new \app\logic\Sres();
+        $re = $server->info((int)$id);
+        $this->send($re);
+    }
+
+
 
 }

@@ -15,6 +15,20 @@ use app\validation\SresEdit;
 class Sres extends Base
 {
 
+
+    /**
+     * 单条 信息
+     * @param int $id
+     * @return \Phalcon\Mvc\Model
+     */
+    public function info(int $id)
+    {
+        $info = slide_res::findFirst(['id= :id:', 'bind' => [
+            'id' => $id
+        ]]);
+        return $info;
+    }
+
     /**
      * 资源列表
      * @param $slide_id 幻灯片id
