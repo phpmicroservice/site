@@ -93,6 +93,9 @@ class Slide extends \app\Controller
         $this->send($re);
     }
 
+    /**
+     * 资源信息
+     */
     public function res_info()
     {
         $id = $this->getData('id');
