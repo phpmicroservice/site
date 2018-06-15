@@ -17,6 +17,15 @@ class Sres extends Base
 
 
     /**
+     * 幻灯片资源列表 使用name查询
+     * @param $name
+     */
+    public function lists_by_name($name)
+    {
+
+    }
+
+    /**
      * 单条 信息
      * @param int $id
      * @return \Phalcon\Mvc\Model
@@ -42,7 +51,6 @@ class Sres extends Base
             ]
         ]);
         return $list;
-
     }
 
     /**

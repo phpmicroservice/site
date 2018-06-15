@@ -20,4 +20,12 @@ class Server extends Controller
         $this->send($re);
     }
 
+    public function slidebyname()
+    {
+        $slide_name = $this->getData('name');
+        $server = new \app\logic\Sres();
+        $re = $server->lists_by_name($slide_name);
+        $this->send($re);
+    }
+
 }
