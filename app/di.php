@@ -1,5 +1,5 @@
 <?php
-
+#  依赖注入文件
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Events\Manager;
