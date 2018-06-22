@@ -71,6 +71,44 @@ $di->setShared('gCache', function () use ($di) {
         "auth" => getenv('GCACHE_AUTH'),
         "persistent" => getenv('GCACHE_PERSISTENT'),
         'prefix' => getenv('GCACHE_PREFIX'),
+    ];
+    if (empty($op['auth'])) {
+        unset($op['auth']);
+    }
+    $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, [
+        "servers" => [
+            [
+                "host"   => $op['host'],
+                "port"   => $op['port'],
+                "weight" => 1,
+            ],
+        ],
+        "client" => [
+            \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
+            \Memcached::OPT_PREFIX_KEY => $op['prefix'],
+        ],
+    ]);
+    return $cache;
+});
+
+
+/**
+ * 全局缓存
+ */
+$di->setShared('gCache2', function () use ($di) {
+    // Create an Output frontend. Cache the files for 2 days
+    $frontCache = new \Phalcon\Cache\Frontend\Data(
+        [
+            "lifetime" => 172800,
+        ]
+    );
+    output($di['config']->cache, 'gCache');
+    $op = [
+        "host" => getenv('GCACHE_HOST'),
+        "port" => getenv('GCACHE_PORT'),
+        "auth" => getenv('GCACHE_AUTH'),
+        "persistent" => getenv('GCACHE_PERSISTENT'),
+        'prefix' => getenv('GCACHE_PREFIX'),
         "index" => getenv('GCACHE_INDEX')
     ];
     if (empty($op['auth'])) {

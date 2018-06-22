@@ -2,6 +2,7 @@
 
 namespace app\controller;
 
+
 use app\Controller;
 
 /**
@@ -16,7 +17,9 @@ class Links extends Controller
      */
     public function index()
     {
-
+       $links = new silde_links();
+        echo'123';
+        //var_dump($links);
     }
 
     /**
