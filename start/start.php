@@ -23,7 +23,11 @@ $loader->registerNamespaces(
     ]
 );
 $loader->register();
-
+//# 进行数据库部署
+//$cbcu =new \pms\Dbcu();
+//$cbcu->testUpdate(ROOT_DIR.'/db/common.php');
+//echo "数据库升级完毕! \n";
+# 开启 服务
 $server = new \pms\Server('0.0.0.0', 9502, SWOOLE_BASE, SWOOLE_SOCK_TCP, [
     'daemonize' => false,
     'reload_async' => false,
