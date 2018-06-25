@@ -35,7 +35,8 @@ class Controller extends \pms\Controller
 
     /**
      * 获取数据
-     * @param $pa
+     * @param $name 数据索引
+     * @param $defind 默认值
      */
     public function getData($name = '', $defind = null)
     {

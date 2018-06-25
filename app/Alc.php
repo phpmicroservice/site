@@ -4,6 +4,7 @@ namespace app;
 
 
 /**
+ * 权限验证类
  * Class Alc
  * @package app
  */

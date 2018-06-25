@@ -1,7 +1,7 @@
 <?php
 //include './logo.php';
 echo "开始主程序! \n";
-define("SERVICE_NAME", "site");# 设置服务名字
+define("APP_SERVICE_NAME", "site");# 设置服务名字
 define('ROOT_DIR', dirname(__DIR__));
 require ROOT_DIR . '/vendor/autoload.php';
 # 进行一些项目配置
@@ -13,7 +13,6 @@ $re9 = env_exist([
 if (is_string($re9)) {
     exit('defined :' . $re9);
 }
-
 
 //注册自动加载
 $loader = new \Phalcon\Loader();

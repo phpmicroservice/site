@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'overtime' => 10,
     'config_init' => false,
     'server_reg' => true,
     'session' => true,

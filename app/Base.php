@@ -5,7 +5,7 @@ namespace app;
 
 /**
  * 基类
- * Class Controller
+ * Class Base
  * @property \pms\Cache\Backend\Redis $gCache
  * @property \Phalcon\Cache\BackendInterface $sessionCache
  * @property \Phalcon\Config $dConfig
