@@ -37,10 +37,21 @@ class Links extends Controller
     {
         //获取数据
         $name = $this->getData('links_name');
+        $links_net = $this->getData('links_net');
         //实例化过滤(验证类)
         $filter = new Filter();
         //过滤数据
         $links_name = $filter->sanitize($name, "string");
+        // 使用匿名函数(自定义)
+        $filter->add(
+            "links_net",
+            function ($value) {
+                return preg_match('#^(http|https|ftp)://([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?/?/i#', $value);
+            }
+        );
+
+        // 利用links_net过滤器清理
+        $filtered = $filter->sanitize($links_net, "links_net");
         //实例化验证
         $validation = new Validation();
         //验证数据
@@ -55,12 +66,23 @@ class Links extends Controller
 
         $messages = $validation->validate(['links_name' => $links_name]);
 
+        $validation->add(
+            "links_net",//这个字段是验证的字段名
+            new PresenceOf(
+                [
+                    "message" => "The links_net is required",
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['links_net' => $links_net]);
+
         if (count($messages) > 0) {
             $this->send($messages);
         }
 
         $links = new slide_links();
-        $success = $links->save(['links_name' => $links_name]);
+        $success = $links->save(['links_name' => $links_name,'links_net'=>$links_net]);
         if (!($success === false)) {
             echo '添加成功';
             $list_links = $links::find();
@@ -111,20 +133,31 @@ class Links extends Controller
         }
 
         $links_name = $this->getData('links_name');
+        $links_net = $this->getData('links_net');
         if ($links_name) {
             $links_name = $filter->sanitize($links_name, "string");
-            $success = $link->save(["links_name" => $links_name]);
-            if ($success) {
-                echo '修改成功';
-                $lists = $slide_links_model::find();
-                $this->send($lists->toArray());
-            } else {
-                echo '修改失败';
-                $messages = $link->getMessages();
-                $this->send($messages);
-            }
         }
-
+        if ($links_net) {
+            $filter->add(
+                "links_net",
+                function ($value) {
+                    return preg_match('#^(http|https|ftp)://([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?/?/i#', $value);
+                }
+            );
+    
+            // 利用links_net过滤器清理
+            $filtered = $filter->sanitize($links_net, "links_net");
+        }
+        $success = $link->save(["links_name" => $links_name,"links_net"=>$links_net]);
+        if ($success) {
+            echo '修改成功';
+            $lists = $slide_links_model::find();
+            $this->send($lists->toArray());
+        } else {
+            echo '修改失败';
+            $messages = $link->getMessages();
+            $this->send($messages);
+        }  
     }
 
     /**

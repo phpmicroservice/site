@@ -14,6 +14,7 @@ use pms\Mvc\Model;
 class slide_links extends Model{
     public $id;
     public $links_name;
+    public $links_net;
 
 
 
