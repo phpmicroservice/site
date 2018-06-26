@@ -51,7 +51,7 @@ class Links extends Controller
         );
 
         // 利用links_net过滤器清理
-        $filtered = $filter->sanitize($links_net, "links_net");
+        $links_net = $filter->sanitize($links_net, "links_net");
         //实例化验证
         $validation = new Validation();
         //验证数据
@@ -146,7 +146,7 @@ class Links extends Controller
             );
     
             // 利用links_net过滤器清理
-            $filtered = $filter->sanitize($links_net, "links_net");
+            $links_net = $filter->sanitize($links_net, "links_net");
         }
         $success = $link->save(["links_name" => $links_name,"links_net"=>$links_net]);
         if ($success) {
