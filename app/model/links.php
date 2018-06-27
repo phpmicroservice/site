@@ -11,7 +11,7 @@ use pms\Mvc\Model;
  * Date: 2018/6/22
  * Time: 14:24
  */
-class slide_links extends Model{
+class links extends Model{
     public $id;
     public $links_name;
     public $links_net;
