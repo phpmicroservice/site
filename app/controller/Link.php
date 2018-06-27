@@ -17,7 +17,7 @@ use Phalcon\Validation\Validator\PresenceOf;
  * Class Links
  * @package app\controller
  */
-class Links extends Controller
+class Link extends Controller
 {
     /**
      * 列表
