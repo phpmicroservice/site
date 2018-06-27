@@ -2,7 +2,7 @@
 
 namespace app\controller;
 
-use app\model\slide_links;
+use app\model\links;
 
 use app\Controller;
 
@@ -17,14 +17,14 @@ use Phalcon\Validation\Validator\PresenceOf;
  * Class Links
  * @package app\controller
  */
-class Links extends Controller
+class Link extends Controller
 {
     /**
      * 列表
      */
     public function index()
     {
-        $links = new slide_links();
+        $links = new links();
         $list_links = $links::find();
         $this->send($list_links->toArray());
 
@@ -123,7 +123,7 @@ class Links extends Controller
         if (count($messages) > 0) {
             $this->send($messages);
         }
-        $slide_links_model = new slide_links();
+        $slide_links_model = new links();
         $link = $slide_links_model::findFirst($id);
 
         if (!$link) {
@@ -178,7 +178,7 @@ class Links extends Controller
             )
         );
         $messages = $validation->validate(['id' => $id]);
-        $slide_links_model = new slide_links();
+        $slide_links_model = new links();
         $link = $slide_links_model::findFirst($id);
         if ($link) {
             echo '查询成功';
@@ -205,9 +205,9 @@ class Links extends Controller
             )
         );
         $messages = $validation->validate(['id' => $id]);
-        $slide_links_model = new slide_links();
+        $slide_links_model = new links();
         $info = $slide_links_model::findFirst($id);
-        if (!($info instanceof slide_links)) {
+        if (!($info instanceof links)) {
             return $this->send("数据错误!");
         }
         $success = $info->delete();
