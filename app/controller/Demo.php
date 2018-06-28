@@ -18,7 +18,8 @@ class Demo extends \app\Controller
     {
         $this->connect->send_succee([
             $this->getData(),
-            "我是" . SERVICE_NAME . "分组",
+            "我是" . SERVICE_NAME . "分组1",
+            '2018年6月28日16:21:43',
             '当前登陆的用户是：' . $this->session->get('user_id'),
             mt_rand(1, 99999)
         ]);
