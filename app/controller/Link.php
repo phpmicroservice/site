@@ -8,7 +8,7 @@ use app\Controller;
 
 use Phalcon\Filter;
 
-use Phalcon\Validation;
+use pms\Validation;
 
 use Phalcon\Validation\Validator\PresenceOf;
 
@@ -38,20 +38,13 @@ class Link extends Controller
         //获取数据
         $name = $this->getData('links_name');
         $links_net = $this->getData('links_net');
+        
         //实例化过滤(验证类)
         $filter = new Filter();
         //过滤数据
         $links_name = $filter->sanitize($name, "string");
         // 使用匿名函数(自定义)
-        $filter->add(
-            "links_net",
-            function ($value) {
-                return preg_match('#^(http|https|ftp)://([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?/?/i#', $value);
-            }
-        );
-
-        // 利用links_net过滤器清理
-        $links_net = $filter->sanitize($links_net, "links_net");
+    
         //实例化验证
         $validation = new Validation();
         //验证数据
@@ -64,8 +57,6 @@ class Link extends Controller
             )
         );
 
-        $messages = $validation->validate(['links_name' => $links_name]);
-
         $validation->add(
             "links_net",//这个字段是验证的字段名
             new PresenceOf(
@@ -75,13 +66,14 @@ class Link extends Controller
             )
         );
 
-        $messages = $validation->validate(['links_net' => $links_net]);
+      
 
-        if (count($messages) > 0) {
-            $this->send($messages);
+        if(!$validation->validate(['links_name' => $links_name,'links_net'=>$links_net])){
+            return $this->send($validation->getErrorMessages());
         }
 
-        $links = new slide_links();
+        $links = new links();
+        
         $success = $links->save(['links_name' => $links_name,'links_net'=>$links_net]);
         if (!($success === false)) {
             echo '添加成功';
