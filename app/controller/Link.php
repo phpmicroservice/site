@@ -147,7 +147,7 @@ class Link extends Controller
             }
             return $this->send(true);
         }catch(\PDOException $e){
-            echo '添加失败';
+            echo '修改失败';
             return $this->send($e->getMessage());
         }
     }
