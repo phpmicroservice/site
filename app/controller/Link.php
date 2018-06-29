@@ -143,7 +143,7 @@ class Link extends Controller
         try{
             $re =$success->save();
             if(!$re){
-               return $this->send($links->getMessages());
+               return $this->send($success->getMessages());
             }
             return $this->send(true);
         }catch(\PDOException $e){
