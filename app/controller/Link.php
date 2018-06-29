@@ -73,19 +73,18 @@ class Link extends Controller
         }
 
         $links = new links();
-        
-        $success = $links->save(['links_name' => $links_name,'links_net'=>$links_net]);
-        if (!($success === false)) {
-            echo '添加成功';
-            $list_links = $links::find();
-            $this->send($list_links->toArray());
-        } else {
-            $messages = $links->getMessages();
+        $links->setData(['links_name' => $links_name,'links_net'=>$links_net]);
+        try{
+            $re =$links->save();
+            if(!$re){
+               return $this->send($links->getMessages());
+            }
+            return $this->send(true);
+        }catch(\PDOException $e){
             echo '添加失败';
-            $this->send($messages);
+            return $this->send($e->getMessage());
         }
-
-
+       
     }
 
     /**
@@ -140,16 +139,17 @@ class Link extends Controller
             // 利用links_net过滤器清理
             $links_net = $filter->sanitize($links_net, "links_net");
         }
-        $success = $link->save(["links_name" => $links_name,"links_net"=>$links_net]);
-        if ($success) {
-            echo '修改成功';
-            $lists = $slide_links_model::find();
-            $this->send($lists->toArray());
-        } else {
-            echo '修改失败';
-            $messages = $link->getMessages();
-            $this->send($messages);
-        }  
+        $success = $link->setData(["links_name" => $links_name,"links_net"=>$links_net]);
+        try{
+            $re =$success->save();
+            if(!$re){
+               return $this->send($links->getMessages());
+            }
+            return $this->send(true);
+        }catch(\PDOException $e){
+            echo '添加失败';
+            return $this->send($e->getMessage());
+        }
     }
 
     /**
@@ -173,12 +173,10 @@ class Link extends Controller
         $slide_links_model = new links();
         $link = $slide_links_model::findFirst($id);
         if ($link) {
-            echo '查询成功';
-            $this->send($link->toArray());
+            return $this->send($link->toArray());
         } else {
-            echo '查询失败';
             $messages = $link->getMessages();
-            $this->send($messages);
+           return $this->send($messages);
         }
     }
 
@@ -204,13 +202,10 @@ class Link extends Controller
         }
         $success = $info->delete();
         if ($success) {
-            echo '删除成功';
-            $links = $slide_links_model::find();
-            $this->send($links->toArray());
+            return $this->send(true);
         } else {
-            echo '删除失败';
             $messages = $info->getMessages();
-            $this->send($messages);
+            return $this->send($messages);
         }
     }
 }
