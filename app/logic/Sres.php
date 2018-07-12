@@ -50,7 +50,7 @@ class Sres extends Base
                 'slide_id' => $slide_id
             ]
         ]);
-        return $list;
+        return $list->toArray();
     }
 
     /**
