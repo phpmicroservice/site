@@ -8,7 +8,7 @@ use app\Controller;
 
 use Phalcon\Filter;
 
-use Phalcon\Validation;
+use pms\Validation;
 
 use Phalcon\Validation\Validator\PresenceOf;
 
@@ -38,20 +38,13 @@ class Link extends Controller
         //获取数据
         $name = $this->getData('links_name');
         $links_net = $this->getData('links_net');
+        
         //实例化过滤(验证类)
         $filter = new Filter();
         //过滤数据
         $links_name = $filter->sanitize($name, "string");
         // 使用匿名函数(自定义)
-        $filter->add(
-            "links_net",
-            function ($value) {
-                return preg_match('#^(http|https|ftp)://([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?/?/i#', $value);
-            }
-        );
-
-        // 利用links_net过滤器清理
-        $links_net = $filter->sanitize($links_net, "links_net");
+    
         //实例化验证
         $validation = new Validation();
         //验证数据
@@ -64,8 +57,6 @@ class Link extends Controller
             )
         );
 
-        $messages = $validation->validate(['links_name' => $links_name]);
-
         $validation->add(
             "links_net",//这个字段是验证的字段名
             new PresenceOf(
@@ -75,25 +66,25 @@ class Link extends Controller
             )
         );
 
-        $messages = $validation->validate(['links_net' => $links_net]);
+      
 
-        if (count($messages) > 0) {
-            $this->send($messages);
+        if(!$validation->validate(['links_name' => $links_name,'links_net'=>$links_net])){
+            return $this->send($validation->getErrorMessages());
         }
 
-        $links = new slide_links();
-        $success = $links->save(['links_name' => $links_name,'links_net'=>$links_net]);
-        if (!($success === false)) {
-            echo '添加成功';
-            $list_links = $links::find();
-            $this->send($list_links->toArray());
-        } else {
-            $messages = $links->getMessages();
+        $links = new links();
+        $links->setData(['links_name' => $links_name,'links_net'=>$links_net]);
+        try{
+            $re =$links->save();
+            if(!$re){
+               return $this->send($links->getMessages());
+            }
+            return $this->send(true);
+        }catch(\PDOException $e){
             echo '添加失败';
-            $this->send($messages);
+            return $this->send($e->getMessage());
         }
-
-
+       
     }
 
     /**
@@ -148,16 +139,17 @@ class Link extends Controller
             // 利用links_net过滤器清理
             $links_net = $filter->sanitize($links_net, "links_net");
         }
-        $success = $link->save(["links_name" => $links_name,"links_net"=>$links_net]);
-        if ($success) {
-            echo '修改成功';
-            $lists = $slide_links_model::find();
-            $this->send($lists->toArray());
-        } else {
+        $success = $link->setData(["links_name" => $links_name,"links_net"=>$links_net]);
+        try{
+            $re =$success->save();
+            if(!$re){
+               return $this->send($success->getMessages());
+            }
+            return $this->send(true);
+        }catch(\PDOException $e){
             echo '修改失败';
-            $messages = $link->getMessages();
-            $this->send($messages);
-        }  
+            return $this->send($e->getMessage());
+        }
     }
 
     /**
@@ -181,12 +173,10 @@ class Link extends Controller
         $slide_links_model = new links();
         $link = $slide_links_model::findFirst($id);
         if ($link) {
-            echo '查询成功';
-            $this->send($link->toArray());
+            return $this->send($link->toArray());
         } else {
-            echo '查询失败';
             $messages = $link->getMessages();
-            $this->send($messages);
+           return $this->send($messages);
         }
     }
 
@@ -212,13 +202,10 @@ class Link extends Controller
         }
         $success = $info->delete();
         if ($success) {
-            echo '删除成功';
-            $links = $slide_links_model::find();
-            $this->send($links->toArray());
+            return $this->send(true);
         } else {
-            echo '删除失败';
             $messages = $info->getMessages();
-            $this->send($messages);
+            return $this->send($messages);
         }
     }
 }
