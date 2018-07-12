@@ -31,16 +31,16 @@ class SresEdit extends Validation
             'message' => 'typein'
         ]);
         # 验证type是否没变
-        $this->add_Validator('type', [
-            'name' => Validation\Validator\StatusValidator::class,
-            'model' => slide_res::class,
-            'status' => [
-                'type' => $data['type']
-            ],
-            'by' => 'id',
-            'by_index' => 'id',
-            'message' => 'typenoedit'
-        ]);
+//        $this->add_Validator('type', [
+//            'name' => Validation\Validator\StatusValidator::class,
+//            'model' => slide_res::class,
+//            'status' => [
+//                'type' => $data['type']
+//            ],
+//            'by' => 'id',
+//            'by_index' => 'id',
+//            'message' => 'typenoedit'
+//        ]);
         # 对于关联数据进行验证
         if ($data['type'] == '1') {
             # cms验证
