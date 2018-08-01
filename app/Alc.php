@@ -12,7 +12,10 @@ class Alc extends Base
 {
     public $user_id;
     public $serverTask = [
-        'demo', 'server', 'index'
+         'server', 'index'
+    ];
+    public $publicTask = [
+        'demo', 'index'
     ];
 
     /**
