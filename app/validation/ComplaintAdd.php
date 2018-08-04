@@ -20,10 +20,7 @@ class ComplaintAdd extends Validation
         $this->add_email('email',[
             'message' => 'required'
         ]);
-        $this->add_stringLength('tel', [
-            'min' => 11,
-            'max' => 11,
-            ]);
+
         $this->add_stringLength('title', [
             'min' => 1,
             'max' => 30,
