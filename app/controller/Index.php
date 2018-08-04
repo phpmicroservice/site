@@ -29,4 +29,13 @@ class Index extends Controller
         $this->send(true);
     }
 
+    public function server_info()
+    {
+        $this->send([
+            'php'=>phpversion(),
+            'swoole'=>swoole_version(),
+            'phalcon'=>\Phalcon\Version::get()
+        ]);
+    }
+
 }
