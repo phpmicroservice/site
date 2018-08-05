@@ -21,6 +21,9 @@ class Index extends Controller
         }
         $data['phone']=$data['phone'] ??'';
         $data['status'] = 0;
+        $data['staff'] = '';
+        $data['c_func'] = 0;
+        $data['feedback'] = 0;
         $model = new \app\model\complaint();
         $model->setData($data);
         if (!$model->save()) {

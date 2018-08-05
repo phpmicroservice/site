@@ -22,16 +22,21 @@ class Complaint extends Controller
     }
 
     /**
-     * 设置状态
+     * 设置 已解决
      * @return bool
      */
-    public function set_status()
+    public function set_status2()
     {
         $id = $this->getData('id');
         $model = \app\model\complaint::findFirst($id);
         if ($model instanceof \app\model\complaint) {
-            $status = $this->getData('status');
-            if (!$model->save(['status' => $status])) {
+            $staff=$this->getData('staff');
+            $c_func=$this->getData('c_func');
+            if (!$model->save([
+                'status' => 2,
+                'staff'=>$staff,
+                'c_func'=>$c_func
+            ])) {
                 return $this->send($model->getMessage());
             }
             return $this->send(true);
@@ -39,5 +44,42 @@ class Complaint extends Controller
             $this->send('empty-error');
         }
     }
+
+    /**
+     * 设置 解决中
+     * @return bool
+     */
+    public function set_status1()
+    {
+        $id = $this->getData('id');
+        $model = \app\model\complaint::findFirst($id);
+        if ($model instanceof \app\model\complaint) {
+
+            if (!$model->save(['status' => 1])) {
+                return $this->send($model->getMessage());
+            }
+            return $this->send(true);
+        } else {
+            $this->send('empty-error');
+        }
+    }
+
+    /**
+     * 单条信息
+     * @return bool
+     */
+    public function info()
+    {
+        $id = $this->getData('id');
+        $model = \app\model\complaint::findFirst($id);
+        if ($model instanceof \app\model\complaint) {
+
+            return $this->send($model->toArray());
+        } else {
+            $this->send('empty-error');
+        }
+    }
+
+
 
 }
