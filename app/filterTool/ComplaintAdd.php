@@ -15,6 +15,8 @@ class ComplaintAdd extends FilterTool
         $this->_Rules[]=['email','string'];
         $this->_Rules[]=['title','string'];
         $this->_Rules[]=['content','string'];
+        $this->_Rules[]=['captcha_value','string'];
+        $this->_Rules[]=['captcha_identifying','string'];
     }
 
 }
