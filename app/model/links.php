@@ -7,7 +7,7 @@ use pms\Mvc\Model;
 
 /**
  * 友情链接模型
- * User: toplink3
+ * User: dongasai
  * Date: 2018/6/22
  * Time: 14:24
  */
