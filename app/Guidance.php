@@ -29,7 +29,7 @@ class Guidance extends \Phalcon\Di\Injectable
      */
     public function beforeStart(Event $event, \pms\Server $pms_server, \Swoole\Server $server)
     {
-        output('beforeStart  beforeStart', 'beforeStart');
+        \pms\output('beforeStart  beforeStart', 'beforeStart');
         # 写入依赖注入
 
     }
@@ -55,7 +55,7 @@ class Guidance extends \Phalcon\Di\Injectable
 //        $this->eventsManager->attach(
 //            "dispatch:beforeException",
 //            function (Event $event, Dispatcher $dispatcher, \Exception $exception) {
-//                output(get_class($exception) , 108108);
+//                \pms\output(get_class($exception) , 108108);
 //                // 处理404异常
 //                if ($exception instanceof DispatchException) {
 //                    $dispatcher->connect->send_error('不存在的动作', [$dispatcher->getTaskName(), $dispatcher->getActionName()], 404);
@@ -72,7 +72,7 @@ class Guidance extends \Phalcon\Di\Injectable
     public function readyJudge(Event $event, \pms\Server $pms_server, $timeid)
     {
         $this->dConfig->ready = true;
-        output('初始化完成', 'init');
+        \pms\output('初始化完成', 'init');
     }
 
     /**
